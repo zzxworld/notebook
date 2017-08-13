@@ -137,8 +137,9 @@ button.btn {
     line-height: 40px;
     border-top: 1px solid #CCC;
     padding: 0 0.5em;
+    text-align: center;
 }
 
 #editor-container footer .btn {
-    margin: 0 0.5em;
+    margin: 0 1em;
 }
