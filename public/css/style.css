@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+body, textarea {
+    font-family: arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+.btn {
+    font-size: 1em;
+}
+
+button.btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#note-index {
+    position: absolute;
+    border-right: 1px solid #999;
+    width: 200px;
+    height: 100%;
+}
+
+#note-index ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    bottom: 40px;
+    width: 100%;
+    overflow: auto;
+}
+
+#note-index ul li {
+    border-bottom: 1px solid #EFEFEF;
+    background: #FFF;
+}
+
+#note-index ul li a{
+    display: block;
+    padding: 1em;
+    color: #666;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#note-index ul li a:hover {
+    background: #FAFAFA;
+}
+
+#note-index ul li time{
+    display: block;
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 0.5em;
+}
+
+#note-index ul li.actived {
+    background: #EFEFEF;
+}
+
+#note-index ul li.actived a {
+    color: #000;
+}
+
+#note-index ul li.actived a:hover {
+    background: #EFEFEF;
+}
+
+#note-index footer {
+    line-height: 40px;
+    padding: 0 1em;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #FFF;
+    border-top: 1px solid #CCC;
+}
+
+#editor-container {
+    position: relative;
+    margin-left: 200px;
+    background: #999;
+    height: 100%;
+}
+
+#editor-container textarea {
+    display: block;
+    line-height: 1.5;
+    outline: none;
+    resize: none;
+    position: absolute;
+    width: 100%;
+    font-size: 1em;
+    border: 0;
+    padding: 1em;
+    top: 0;
+    bottom: 40px;
+}
+
+#editor-container footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #FFF;
+    line-height: 40px;
+    border-top: 1px solid #CCC;
+    padding: 0 0.5em;
+}
+
+#editor-container footer .btn {
+    margin: 0 0.5em;
+}
