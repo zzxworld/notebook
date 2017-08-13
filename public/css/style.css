@@ -125,6 +125,10 @@ button.btn {
     bottom: 40px;
 }
 
+#editor-container textarea::first-line {
+    font-weight: bold;
+}
+
 #editor-container footer {
     position: absolute;
     bottom: 0;

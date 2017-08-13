@@ -11,6 +11,11 @@ $activeNote = Note::find($id);
 
     <section id="note-index">
         <ul>
+        <?php if (!$id) { ?>
+            <li class="actived">
+                <a href="/">新文档</a>
+            </li>
+        <?php } ?>
         <?php foreach ($notes as $note) { ?>
             <li<?php echo intval($note['id']) == $id ? ' class="actived"' : '' ?>>
             <a href="/?id=<?php echo $note['id'] ?>"><?php echo Note::getTitle($note['id']) ?><time><?php echo formatDateToHuman($note['created_at']) ?></time></a>
