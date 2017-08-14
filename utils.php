@@ -70,3 +70,21 @@ function formatDateToHuman($strTime)
     }
     return '刚刚';
 }
+
+function isEmail($text)
+{
+	return preg_match('/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/', $text);
+}
+
+function randString($limit=4)
+{
+    $words = array_merge(
+        range('a', 'z'),
+        range('A', 'Z'),
+        range(0, 9));
+    $result = [];
+    foreach (range(1, $limit) as $i) {
+        $result[] = $words[array_rand($words)];
+    }
+    return implode('', $result);
+}

@@ -24,6 +24,7 @@ $activeNote = Note::find($id);
         </ul>
         <footer>
             <a href="/">新增笔记</a>
+            <a href="/?action=login">登录</a>
         </footer>
     </section>
 

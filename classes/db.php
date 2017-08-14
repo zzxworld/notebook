@@ -28,4 +28,20 @@ class DB
         $db = self::connect();
         return $db->lastInsertId();
     }
+
+    public static function count($table, array $params = [])
+    {
+        $db = self::connect();
+        $where = array_map(function($key) {
+            return $key.'=?';
+        }, array_keys($params));
+
+        if ($where) {
+            $query = $db->prepare('SELECT COUNT(id) AS total FROM '.$table.' WHERE '.implode($where, ' AND '));
+        } else {
+            $query = $db->prepare('SELECT COUNT(id) AS total FROM '.$table);
+        }
+        $query->execute(array_values($params));
+        return (int)$query->fetch(PDO::FETCH_ASSOC)['total'];
+    }
 }
