@@ -6,7 +6,8 @@
 </head>
 <body>
     <div>
-        <form action="/?action=register_confirm" method="post">
+        <?php component('flash_message') ?>
+        <form action="<?php  echo url('register_confirm') ?>" method="post">
             <div>
                 <input type="text" name="account" placeholder="Email 格式登录账号">
             </div>
@@ -18,6 +19,7 @@
             </div>
             <footer>
                 <button type="submit">确认注册</button>
+                <a href="<?php echo url('login') ?>">返回登录</a>
             </footer>
         </form>
     </div>

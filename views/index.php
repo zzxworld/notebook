@@ -18,18 +18,22 @@ $activeNote = Note::find($id);
         <?php } ?>
         <?php foreach ($notes as $note) { ?>
             <li<?php echo intval($note['id']) == $id ? ' class="actived"' : '' ?>>
-            <a href="/?id=<?php echo $note['id'] ?>"><?php echo Note::getTitle($note['id']) ?><time><?php echo formatDateToHuman($note['created_at']) ?></time></a>
+            <a href="<?php echo url(['id'=>$note['id']]) ?>"><?php echo Note::getTitle($note['id']) ?><time><?php echo formatDateToHuman($note['created_at']) ?></time></a>
             </li>
         <?php } ?>
         </ul>
         <footer>
             <a href="/">新增笔记</a>
-            <a href="/?action=login">登录</a>
+            <?php if (isLogined()) { ?>
+            <a href="<?php echo url('logout') ?>">退出</a>
+            <?php } else { ?>
+            <a href="<?php echo url('login') ?>">登录</a>
+            <?php } ?>
         </footer>
     </section>
 
     <div id="editor-container">
-        <form action="/?action=<?php echo $activeNote ? 'update' : 'create' ?>" method="post">
+        <form action="<?php echo url($activeNote ? 'update' : 'create') ?>" method="post">
             <?php if ($activeNote) { ?>
             <input name="id" value="<?php echo (int) $activeNote['id'] ?>">
             <?php } ?>
@@ -37,7 +41,7 @@ $activeNote = Note::find($id);
             <footer>
                 <button type="submit" class="btn">保存</button>
                 <?php if ($activeNote) { ?>
-                <a href="/?action=destroy&id=<?php echo $id ?>" class="btn">丢弃</a>
+                <a href="<?php echo url(['action'=>'destroy', 'id'=>$id]) ?>" class="btn">丢弃</a>
                 <?php } ?>
             </footer>
         </form>

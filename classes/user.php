@@ -29,4 +29,22 @@ class User
 		$query->execute();
 	}
 
+    public static function login($account, $password)
+    {
+        $query = DB::prepare('SELECT id, salt, password FROM users WHERE email=:account LIMIT 1');
+        $query->bindParam(':account', $account);
+        $query->execute();
+
+        $result = $query->fetch();
+        if (!$result) {
+            throw new UserInvalidAccountError;
+        }
+
+        $password = self::encryptPassword($password, $result['salt']);
+        if ($password != $result['password']) {
+            throw new UserInvalidPasswordError;
+        }
+
+        return $result['id'];
+    }
 }

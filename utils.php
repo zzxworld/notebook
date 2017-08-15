@@ -21,10 +21,37 @@ function getParam($name, $default=null)
     return $value;
 }
 
+function url($params = null)
+{
+    if (is_string($params)) {
+        $params = ['action' => $params];
+    }
+
+    if (!is_array($params)) {
+        return '/';
+    }
+
+    return '/?'. http_build_query($params);
+}
+
 function redirect($url)
 {
     header('Location: '.$url);
     exit();
+}
+
+function setEnvironment()
+{
+    session_start();
+}
+
+function component($name)
+{
+    $filename = APP_ROOT.'/views/components/'.$name.'.php';
+    if (!file_exists($filename)) {
+        return false;
+    }
+    include($filename);
 }
 
 function render()
@@ -73,7 +100,7 @@ function formatDateToHuman($strTime)
 
 function isEmail($text)
 {
-	return preg_match('/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/', $text);
+    return preg_match('/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/', $text);
 }
 
 function randString($limit=4)
@@ -87,4 +114,41 @@ function randString($limit=4)
         $result[] = $words[array_rand($words)];
     }
     return implode('', $result);
+}
+
+function flashMessage($message = null)
+{
+    if (!$message) {
+        if (isset($_SESSION['flash_message'])) {
+            $message = $_SESSION['flash_message'];
+            $_SESSION['flash_message'] = null;
+        }
+        return $message;
+    }
+    $_SESSION['flash_message'] = $message;
+}
+
+function signUser($id)
+{
+    $_SESSION['uid'] = (int) $id;
+}
+
+function destroyUser()
+{
+    $_SESSION['uid'] = 0;
+}
+
+function isLogined()
+{
+    if (!isset($_SESSION['uid'])) {
+        return false;
+    }
+
+    $userId = (int) $_SESSION['uid'];
+
+    if ($userId < 1) {
+        return false;
+    }
+
+    return true;
 }
