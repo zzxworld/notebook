@@ -1,16 +1,16 @@
 <?php
-class Note
+class Post
 {
     public static function find($id)
     {
         $query = DB::prepare('SELECT * FROM posts WHERE id=? LIMIT 1');
         $query->execute([$id]);
-        $note = $query->fetch(PDO::FETCH_ASSOC);
-        if (!$note) {
+        $post = $query->fetch();
+        if (!$post) {
             return;
         }
 
-        $note['content'] = '';
+        $post['content'] = '';
 
         $query = DB::prepare('SELECT version_id, fragment FROM post_contents WHERE post_id=? ORDER BY version_id DESC, id ASC');
         $query->execute([$id]);
@@ -22,10 +22,24 @@ class Note
             if ($versionId != $rs['version_id']) {
                 break;
             }
-            $note['content'] .= $rs['fragment'];
+            $post['content'] .= $rs['fragment'];
         }
 
-        return $note;
+        return $post;
+    }
+
+    public static function findWithUser($id, $userId)
+    {
+        $query = DB::prepare('SELECT COUNT(id) AS total FROM posts WHERE id=:id AND user_id=:user_id');
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $query->execute();
+
+        if (intval($query->fetch()['total']) == 0) {
+            return null;
+        }
+
+        return self::find($id);
     }
 
     public static function getTitle($id, $emptyTitle='空笔记')

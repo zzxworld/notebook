@@ -8,7 +8,8 @@ class DB
         try {
             if (!isset(self::$connection)) {
                 self::$connection = new PDO('sqlite:'.APP_ROOT.'/'.Config::get('db_name'), null, null, [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                 ]);
             }
             return self::$connection;

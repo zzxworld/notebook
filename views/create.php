@@ -1,8 +1,15 @@
 <?php
+$user = currentUser();
+if (!$user) {
+    flashMessage('请先登录');
+    redirect(url('login'));
+}
+
 $content = htmlentities(getParam('content'));
 $time = date('Y-m-d H:i:s');
 
-$query = DB::prepare('INSERT INTO posts(created_at) VALUES(:time)');
+$query = DB::prepare('INSERT INTO posts(user_id, created_at) VALUES(:user_id, :time)');
+$query->bindParam(':user_id', $user['id'], PDO::PARAM_INT);
 $query->bindParam(':time', $time);
 $query->execute();
 

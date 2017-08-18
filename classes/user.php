@@ -47,4 +47,12 @@ class User
 
         return $result['id'];
     }
+
+    public static function find($id)
+    {
+        $query = DB::prepare('SELECT * FROM users WHERE id=:id LIMIT 1');
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetch();
+    }
 }

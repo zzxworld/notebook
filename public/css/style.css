@@ -38,14 +38,14 @@ button.btn {
     height: 100%;
 }
 
-#note-index {
+#post-index {
     position: absolute;
     border-right: 1px solid #999;
     width: 200px;
     height: 100%;
 }
 
-#note-index ul {
+#post-index ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -56,12 +56,12 @@ button.btn {
     overflow: auto;
 }
 
-#note-index ul li {
+#post-index ul li {
     border-bottom: 1px solid #EFEFEF;
     background: #FFF;
 }
 
-#note-index ul li a{
+#post-index ul li a{
     display: block;
     padding: 1em;
     color: #666;
@@ -71,30 +71,30 @@ button.btn {
     text-overflow: ellipsis;
 }
 
-#note-index ul li a:hover {
+#post-index ul li a:hover {
     background: #FAFAFA;
 }
 
-#note-index ul li time{
+#post-index ul li time{
     display: block;
     font-size: 0.8em;
     color: #999;
     margin-top: 0.5em;
 }
 
-#note-index ul li.actived {
+#post-index ul li.actived {
     background: #EFEFEF;
 }
 
-#note-index ul li.actived a {
+#post-index ul li.actived a {
     color: #000;
 }
 
-#note-index ul li.actived a:hover {
+#post-index ul li.actived a:hover {
     background: #EFEFEF;
 }
 
-#note-index footer {
+#post-index footer {
     line-height: 40px;
     padding: 0 1em;
     position: absolute;

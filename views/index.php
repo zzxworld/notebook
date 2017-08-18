@@ -1,24 +1,27 @@
 <?php
 $id = (int) getParam('id');
+$user = currentUser();
+$userId = $user ? $user['id'] : 0;
+$query = DB::prepare('SELECT * FROM posts WHERE user_id=:user_id AND deleted_at IS NULL ORDER BY id DESC');
+$query->bindParam('user_id', $userId, PDO::PARAM_INT);
+$query->execute();
 
-$db = DB::connect();
-$result = $db->query('SELECT * FROM posts WHERE deleted_at IS NULL ORDER BY id DESC');
-$notes = $result->fetchAll(PDO::FETCH_ASSOC);
+$posts = $query->fetchAll(PDO::FETCH_ASSOC);
 
-$activeNote = Note::find($id);
+$activePost = Post::findWithUser($id, $userId);
 ?>
 <div class="container">
 
-    <section id="note-index">
+    <section id="post-index">
         <ul>
         <?php if (!$id) { ?>
             <li class="actived">
                 <a href="/">新文档</a>
             </li>
         <?php } ?>
-        <?php foreach ($notes as $note) { ?>
-            <li<?php echo intval($note['id']) == $id ? ' class="actived"' : '' ?>>
-            <a href="<?php echo url(['id'=>$note['id']]) ?>"><?php echo Note::getTitle($note['id']) ?><time><?php echo formatDateToHuman($note['created_at']) ?></time></a>
+        <?php foreach ($posts as $post) { ?>
+            <li<?php echo intval($post['id']) == $id ? ' class="actived"' : '' ?>>
+            <a href="<?php echo url(['id'=>$post['id']]) ?>"><?php echo Post::getTitle($post['id']) ?><time><?php echo formatDateToHuman($post['created_at']) ?></time></a>
             </li>
         <?php } ?>
         </ul>
@@ -33,14 +36,14 @@ $activeNote = Note::find($id);
     </section>
 
     <div id="editor-container">
-        <form action="<?php echo url($activeNote ? 'update' : 'create') ?>" method="post">
-            <?php if ($activeNote) { ?>
-            <input name="id" value="<?php echo (int) $activeNote['id'] ?>">
+        <form action="<?php echo url($activePost ? 'update' : 'create') ?>" method="post">
+            <?php if ($activePost) { ?>
+            <input name="id" value="<?php echo (int) $activePost['id'] ?>">
             <?php } ?>
-            <textarea name="content"><?php echo $activeNote ? $activeNote['content'] : '' ?></textarea>
+            <textarea name="content"><?php echo $activePost ? $activePost['content'] : '' ?></textarea>
             <footer>
                 <button type="submit" class="btn">保存</button>
-                <?php if ($activeNote) { ?>
+                <?php if ($activePost) { ?>
                 <a href="<?php echo url(['action'=>'destroy', 'id'=>$id]) ?>" class="btn">丢弃</a>
                 <?php } ?>
             </footer>

@@ -152,3 +152,11 @@ function isLogined()
 
     return true;
 }
+
+function currentUser()
+{
+    if (!isset($_SESSION['uid'])) {
+        return null;
+    }
+    return User::find((int) $_SESSION['uid']);
+}
