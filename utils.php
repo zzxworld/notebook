@@ -160,3 +160,18 @@ function currentUser()
     }
     return User::find((int) $_SESSION['uid']);
 }
+
+function isJsonRequest()
+{
+    $contentType = findArray($_SERVER, 'CONTENT_TYPE');
+    if ($contentType == 'application/json') {
+        return true;
+    }
+    return false;
+}
+
+function renderJson($data)
+{
+    header('Content-type: application/json; charset=utf-8');
+    die(json_encode($data, JSON_NUMERIC_CHECK));
+}

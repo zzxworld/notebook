@@ -1,14 +1,25 @@
 <?php
-$id = (int) getParam('id');
+if (isJsonRequest()) {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $id = intval(findArray($data, 'id'));
+    $content = trim(findArray($data, 'content', ''));
+} else {
+    $id = (int) getParam('id');
+    $content = getParam('content');
+}
 
 $query = DB::prepare('SELECT COUNT(id) as total FROM posts WHERE id=?');
 $query->execute([$id]);
 $exist = (bool) $query->fetch(PDO::FETCH_ASSOC)['total'];
 if (!$exist) {
-    redirect('/');
+    if (isJsonRequest()) {
+        renderJson(['error' => 1]);
+    } else {
+        redirect(url());
+    }
 }
 
-$content = htmlentities(getParam('content'));
+$content = htmlentities($content);
 $time = date('Y-m-d H:i:s');
 
 $query = DB::prepare('UPDATE posts SET updated_at=:time WHERE id=:id');
@@ -40,4 +51,11 @@ do {
     $offset += $limit;
 } while ($offset < $total);
 
-redirect('/?id='.$id);
+if (isJsonRequest()) {
+    renderJson([
+        'error' => 0,
+        'id' => $id,
+    ]);
+} else {
+    redirect('/?id='.$id);
+}

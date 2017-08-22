@@ -5,7 +5,24 @@ if (!$user) {
     redirect(url('login'));
 }
 
-$content = htmlentities(getParam('content'));
+if (isJsonRequest()) {
+    $content = json_decode(file_get_contents('php://input'), true);
+    $content = trim(findArray($content, 'content', ''));
+} else {
+    $content = getParam('content');
+}
+
+if (!$content) {
+    if (isJsonRequest()) {
+        renderJson([
+            'error' => 1
+        ]);
+    } else {
+        redirect(url());
+    }
+}
+
+$content = htmlentities($content);
 $time = date('Y-m-d H:i:s');
 
 $query = DB::prepare('INSERT INTO posts(user_id, created_at) VALUES(:user_id, :time)');
@@ -44,4 +61,11 @@ if ($content) {
     } while ($offset < $total);
 }
 
-redirect('/?id='.$postId);
+if (isJsonRequest()) {
+    renderJson([
+        'error' => 0,
+        'id' => $postId
+    ]);
+} else {
+    redirect('/?id='.$postId);
+}

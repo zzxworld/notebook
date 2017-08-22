@@ -36,10 +36,8 @@ $activePost = Post::findWithUser($id, $userId);
     </section>
 
     <div id="editor-container">
-        <form action="<?php echo url($activePost ? 'update' : 'create') ?>" method="post">
-            <?php if ($activePost) { ?>
-            <input name="id" value="<?php echo (int) $activePost['id'] ?>">
-            <?php } ?>
+        <form class="post-editor" action="<?php echo url($activePost ? 'update' : 'create') ?>" method="post">
+            <input name="id" value="<?php echo $activePost ? (int) $activePost['id'] : 0 ?>">
             <textarea name="content"><?php echo $activePost ? $activePost['content'] : '' ?></textarea>
             <footer>
                 <button type="submit" class="btn">保存</button>
