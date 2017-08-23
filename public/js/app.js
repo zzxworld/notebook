@@ -29,10 +29,18 @@
             });
         };
 
+        var doSaveTimer = null;
         contentElement.addEventListener('keydown', function(e) {
+            if (doSaveTimer) {
+                clearTimeout(doSaveTimer);
+            }
+
             if (e.ctrlKey && e.key == 's') {
                 doSavePost();
+                return false;
             }
+
+            doSaveTimer = setTimeout(doSavePost, 5000);
         });
 
     }, false);
